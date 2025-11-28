@@ -2,6 +2,7 @@ package br.com.senac.exercicioEntidadeRelacionamentoJwt.api.services;
 
 import br.com.senac.exercicioEntidadeRelacionamentoJwt.api.dtos.CepsRequestDTO;
 import br.com.senac.exercicioEntidadeRelacionamentoJwt.api.entidades.Ceps;
+import br.com.senac.exercicioEntidadeRelacionamentoJwt.api.entidades.Cidades;
 import br.com.senac.exercicioEntidadeRelacionamentoJwt.api.repositorios.CepsRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,12 @@ public class CepsService {
 
     @Autowired
     private CepsRepositorio cepsRepositorio;
+
+    private CidadesService cidadesService;
+
+    public CepsService(CidadesService cidadesService) {
+        this.cidadesService = cidadesService;
+    }
 
     public List<Ceps> listar() {
         return cepsRepositorio.findAll();
@@ -41,10 +48,14 @@ public class CepsService {
     }
 
     private Ceps cepsRequestDtoParaCeps(CepsRequestDTO entrada) {
+        Cidades cidadeResult =
+                cidadesService.listarById(entrada.getCidadeId());
+
         Ceps saida = new Ceps();
         saida.setCep(entrada.getCep());
         saida.setBairro(entrada.getBairro());
         saida.setRua(entrada.getRua());
+        saida.setCidade(cidadeResult);
 
         return saida;
     }

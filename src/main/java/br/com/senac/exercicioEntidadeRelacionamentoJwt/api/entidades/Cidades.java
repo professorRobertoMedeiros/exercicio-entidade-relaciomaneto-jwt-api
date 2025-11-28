@@ -12,6 +12,10 @@ public class Cidades {
     @Column(nullable = false)
     private String nome;
 
+    @ManyToOne
+    @JoinColumn(name = "estado_id", nullable = false)
+    private Estados estado;
+
     public Long getId() {
         return id;
     }
@@ -26,5 +30,13 @@ public class Cidades {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public Estados getEstado() {
+        return estado;
+    }
+
+    public void setEstado(Estados estado) {
+        this.estado = estado;
     }
 }

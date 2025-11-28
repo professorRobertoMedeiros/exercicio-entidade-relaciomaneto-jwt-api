@@ -2,17 +2,25 @@ package br.com.senac.exercicioEntidadeRelacionamentoJwt.api.services;
 
 import br.com.senac.exercicioEntidadeRelacionamentoJwt.api.dtos.CidadesDTO;
 import br.com.senac.exercicioEntidadeRelacionamentoJwt.api.entidades.Cidades;
+import br.com.senac.exercicioEntidadeRelacionamentoJwt.api.entidades.Estados;
 import br.com.senac.exercicioEntidadeRelacionamentoJwt.api.repositorios.CidadesRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CidadesService {
 
     @Autowired
     private CidadesRepositorio cidadesRepositorio;
+
+    private EstadosService estadosService;
+
+    public CidadesService(EstadosService estadosService) {
+        this.estadosService = estadosService;
+    }
 
     public List<Cidades> listar() {
         return cidadesRepositorio.findAll();
@@ -41,9 +49,21 @@ public class CidadesService {
     }
 
     private Cidades cidadesRequestDtoParaCidades(CidadesDTO entrada) {
+        Estados estadoResult =
+                estadosService.listarById(entrada.getEstadoId());
         Cidades saida = new Cidades();
         saida.setNome(entrada.getNome());
+        saida.setEstado(estadoResult);
 
         return saida;
+    }
+
+    public Cidades listarById(Long id) {
+        Optional<Cidades> cidadeResult = cidadesRepositorio.findById(id);
+        if(cidadeResult.isEmpty()) {
+            throw new RuntimeException("Cidade não encontrada");
+        }
+
+        return cidadeResult.get();
     }
 }

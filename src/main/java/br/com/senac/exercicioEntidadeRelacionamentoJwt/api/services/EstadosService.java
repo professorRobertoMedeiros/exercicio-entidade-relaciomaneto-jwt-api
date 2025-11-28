@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class EstadosService {
@@ -45,5 +46,14 @@ public class EstadosService {
         saida.setUf(entrada.getUf());
 
         return saida;
+    }
+
+    public Estados listarById(Long id) {
+        Optional<Estados> estadoResult = estadosRepositorio.findById(id);
+        if(estadoResult.isEmpty()) {
+            throw new RuntimeException("Estado não encontrado");
+        }
+
+        return estadoResult.get();
     }
 }

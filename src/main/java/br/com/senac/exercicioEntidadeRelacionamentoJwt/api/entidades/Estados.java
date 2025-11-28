@@ -1,6 +1,9 @@
 package br.com.senac.exercicioEntidadeRelacionamentoJwt.api.entidades;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 public class Estados {
@@ -10,6 +13,10 @@ public class Estados {
 
     @Column(nullable = false, length = 2)
     private String uf;
+
+    @OneToMany(mappedBy = "estado")
+    @JsonManagedReference
+    private List<Cidades> cidadesList;
 
     public Long getId() {
         return id;
@@ -25,5 +32,13 @@ public class Estados {
 
     public void setUf(String uf) {
         this.uf = uf;
+    }
+
+    public List<Cidades> getCidadesList() {
+        return cidadesList;
+    }
+
+    public void setCidadesList(List<Cidades> cidadesList) {
+        this.cidadesList = cidadesList;
     }
 }

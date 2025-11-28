@@ -17,6 +17,9 @@ public class Ceps {
     @Column(nullable = false)
     private String rua;
 
+    @ManyToOne(optional = false)
+    private Cidades cidade;
+
     public Long getId() {
         return id;
     }
@@ -47,5 +50,13 @@ public class Ceps {
 
     public void setRua(String rua) {
         this.rua = rua;
+    }
+
+    public Cidades getCidade() {
+        return cidade;
+    }
+
+    public void setCidade(Cidades cidade) {
+        this.cidade = cidade;
     }
 }

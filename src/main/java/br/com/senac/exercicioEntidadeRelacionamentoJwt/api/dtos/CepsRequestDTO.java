@@ -7,6 +7,8 @@ public class CepsRequestDTO {
 
     private String rua;
 
+    private Long cidadeId;
+
     public Integer getCep() {
         return cep;
     }
@@ -29,5 +31,13 @@ public class CepsRequestDTO {
 
     public void setRua(String rua) {
         this.rua = rua;
+    }
+
+    public Long getCidadeId() {
+        return cidadeId;
+    }
+
+    public void setCidadeId(Long cidadeId) {
+        this.cidadeId = cidadeId;
     }
 }
